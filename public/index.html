@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Clínica Webservice</title>
+</head>
+<body>
+    <h1>Cadastro de Pacientes</h1>
+    <form id="formPaciente">
+        Nome: <input type="text" id="nomePaciente" required><br>
+        Idade: <input type="number" id="idadePaciente" required><br>
+        <button type="submit">Cadastrar Paciente</button>
+    </form>
+
+    <h1>Agendamento de Consultas</h1>
+    <form id="formConsulta">
+        Paciente: <input type="text" id="pacienteConsulta" required><br>
+        Data: <input type="date" id="dataConsulta" required><br>
+        <button type="submit">Agendar Consulta</button>
+    </form>
+
+    <script>
+        document.getElementById('formPaciente').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const nome = document.getElementById('nomePaciente').value;
+            const idade = document.getElementById('idadePaciente').value;
+
+            await fetch('/api/pacientes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, idade })
+            });
+
+            alert('Paciente cadastrado!');
+            this.reset();
+        });
+
+        document.getElementById('formConsulta').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const paciente = document.getElementById('pacienteConsulta').value;
+            const data = document.getElementById('dataConsulta').value;
+
+            await fetch('/api/consultas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paciente, data })
+            });
+
+            alert('Consulta agendada!');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
